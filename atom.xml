@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://huayan.site/"/>
-  <updated>2017-05-15T09:02:31.000Z</updated>
+  <updated>2017-05-15T09:12:16.000Z</updated>
   <id>http://huayan.site/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://huayan.site/2017/05/15/JavaScript-%E9%9D%A2%E8%AF%95%E4%B8%AD%E5%B8%B8%E8%A7%81%E7%AE%97%E6%B3%95%E9%97%AE%E9%A2%98%E8%AF%A6%E8%A7%A3/"/>
     <id>http://huayan.site/2017/05/15/JavaScript-面试中常见算法问题详解/</id>
     <published>2017-05-15T08:51:22.000Z</published>
-    <updated>2017-05-15T09:02:31.000Z</updated>
+    <updated>2017-05-15T09:12:16.000Z</updated>
     
     <content type="html"><![CDATA[<p><a href="https://segmentfault.com/a/1190000008397935" target="_blank" rel="external">原文出处：王下邀月熊_Chevalier   </a></p>
 <h3 id="JavaScript-Specification"><a href="#JavaScript-Specification" class="headerlink" title="JavaScript Specification"></a>JavaScript Specification</h3><h4 id="阐述下-JavaScript-中的变量提升"><a href="#阐述下-JavaScript-中的变量提升" class="headerlink" title="阐述下 JavaScript 中的变量提升"></a>阐述下 JavaScript 中的变量提升</h4><p>所谓提升，顾名思义即是 JavaScript 会将所有的声明提升到当前作用域的顶部。这也就意味着我们可以在某个变量声明前就使用该变量，不过虽然 JavaScript 会将声明提升到顶部，但是并不会执行真的初始化过程。</p>
@@ -89,6 +89,10 @@
     
     </summary>
     
+    
+      <category term="javascript" scheme="http://huayan.site/tags/javascript/"/>
+    
+      <category term="算法" scheme="http://huayan.site/tags/%E7%AE%97%E6%B3%95/"/>
     
   </entry>
   
