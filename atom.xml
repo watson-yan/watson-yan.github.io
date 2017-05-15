@@ -4,9 +4,9 @@
   
   <link href="/atom.xml" rel="self"/>
   
-  <link href="https://huayan.site/"/>
+  <link href="http://huayan.site/"/>
   <updated>2017-05-12T09:49:47.000Z</updated>
-  <id>https://huayan.site/</id>
+  <id>http://huayan.site/</id>
   
   <author>
     <name>watson yan</name>
@@ -17,8 +17,8 @@
   
   <entry>
     <title>Hello World</title>
-    <link href="https://huayan.site/2017/05/12/hello-world/"/>
-    <id>https://huayan.site/2017/05/12/hello-world/</id>
+    <link href="http://huayan.site/2017/05/12/hello-world/"/>
+    <id>http://huayan.site/2017/05/12/hello-world/</id>
     <published>2017-05-12T09:49:47.000Z</published>
     <updated>2017-05-12T09:49:47.000Z</updated>
     
