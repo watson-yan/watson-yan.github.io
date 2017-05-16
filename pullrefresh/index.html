@@ -79,10 +79,11 @@
         // 把元素放在手指所在的位置 
         touchStart = touch.pageY; 
         console.log('touchStart:' + touchStart);
-        // if (outerScroller.scrollTop === 0) {
-        //     flag = true
-        // }
-    }, false);
+        if (outerScroller.scrollTop === 0) {
+            event.preventDefault()
+            flag = true
+        }
+    });
    outerScroller.addEventListener('touchmove', function(event) { 
         var touch = event.targetTouches[0]; 
             var top = outerScroller.scrollTop
@@ -107,7 +108,7 @@
                     }
                 }
             }
-        }, false);
+        });
    outerScroller.addEventListener('touchend', function(event) { 
         if (flag) {
             console.warn('refresh')
