@@ -81,14 +81,13 @@
         console.log('touchStart:' + touchStart);
         if (outerScroller.scrollTop === 0 && touchDis > 0) {
             event.preventDefault()
-            flag = true
         }
     });
    outerScroller.addEventListener('touchmove', function(event) { 
         var touch = event.targetTouches[0]; 
             var top = outerScroller.scrollTop
             if (top === 0) {
-              event.preventDefault();
+              // event.preventDefault();
                 if (beZero === 0) {
                     beZero = touch.pageY - touchStart;
                 }
