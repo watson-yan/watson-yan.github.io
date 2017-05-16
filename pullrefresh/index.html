@@ -79,7 +79,7 @@
         // 把元素放在手指所在的位置 
         touchStart = touch.pageY; 
         console.log('touchStart:' + touchStart);
-        if (outerScroller.scrollTop === 0) {
+        if (outerScroller.scrollTop === 0 && touchDis > 0) {
             event.preventDefault()
             flag = true
         }
