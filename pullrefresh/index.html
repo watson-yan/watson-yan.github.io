@@ -87,6 +87,7 @@
         var touch = event.targetTouches[0]; 
             var top = outerScroller.scrollTop
             if (top === 0) {
+              event.preventDefault();
                 if (beZero === 0) {
                     beZero = touch.pageY - touchStart;
                 }
