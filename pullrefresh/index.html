@@ -93,13 +93,10 @@
                 touchDis = touch.pageY - touchStart - beZero;
                 console.warn(touchDis)
                 if (touchDis > 0) {
-                    if (touchDis < 100) {
+                    if (touchDis < 70) {
                         outerScroller.style.overflow = 'inherit'
                         outerScroller.style.transform = 'translate3D(0px, ' + touchDis +'px, 0px)'
-                       // msg.style.marginTop = (touchDis - 50) + 'px' 
-                        // msg.style.transform = 'translateY(' + touchDis +'px)'
-                        
-                        if (touchDis > 70) {
+                        if (touchDis > 50) {
                             console.warn('释放刷新')
                             msg.innerHTML = '释放刷新'
                             flag = true
@@ -126,19 +123,11 @@
                 outerScroller.style.transform = 'translate3D(0px, 0px, 0px)'
             }, 600);
             return
-           // msg.style.transform = 'translateY(0px)'
         }
         beZero = 0
         outerScroller.scrollTop = 0
         outerScroller.style.overflow = 'auto'
         outerScroller.style.transform = 'translate3D(0px, 0px, 0px)'
-        // if(top>70)refresh();
-        // if(top>0){
-        //     var time = setInterval(function(){
-        //       scroll.style.top = scroll.offsetTop -2+'px';
-        //       if(scroll.offsetTop<=0)clearInterval(time);
-        //     },1)
-        // }
     }, false);
    function refresh(){
        for(var i = 10;i>0;i--){
