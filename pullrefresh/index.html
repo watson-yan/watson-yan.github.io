@@ -85,38 +85,34 @@
     });
    outerScroller.addEventListener('touchmove', function(event) { 
         var touch = event.targetTouches[0]; 
-            var top = outerScroller.scrollTop
-            if (top === 0) {
-              // event.preventDefault();
-                if (beZero === 0) {
-                    beZero = touch.pageY - touchStart;
-                }
-                touchDis = touch.pageY - touchStart - beZero;
-                console.warn(touchDis)
-                if (touchDis > 0) {
-                    if (touchDis < 70) {
-                        outerScroller.style.overflow = 'inherit'
-                        outerScroller.style.transform = 'translate3D(0px, ' + touchDis +'px, 0px)'
-                        if (touchDis > 50) {
-                            console.warn('释放刷新')
-                            msg.innerHTML = '释放刷新'
-                            flag = true
-                        } else {
-                            msg.innerHTML = '下拉刷新'
-                        }
+        var top = outerScroller.scrollTop
+        if (top === 0) {
+            if (beZero === 0) {
+                beZero = touch.pageY - touchStart;
+            }
+            touchDis = touch.pageY - touchStart - beZero;
+            console.warn(touchDis)
+            if (touchDis > 0) {
+                event.preventDefault()
+                if (touchDis < 70) {
+                    outerScroller.style.overflow = 'inherit'
+                    outerScroller.style.transform = 'translate3D(0px, ' + touchDis +'px, 0px)'
+                    if (touchDis > 50) {
+                        console.warn('释放刷新')
+                        msg.innerHTML = '释放刷新'
+                        flag = true
+                    } else {
+                        msg.innerHTML = '下拉刷新'
                     }
                 }
             }
-        });
+        }
+    });
    outerScroller.addEventListener('touchend', function(event) { 
         if (flag) {
-            console.warn('refresh')
-
             outerScroller.style.transform = 'translate3D(0px, 50px, 0px)'
             msg.innerHTML = '正在加载'
-            
             flag = false
-            
             setTimeout(() => {
                 refresh()
                 outerScroller.scrollTop = 0
