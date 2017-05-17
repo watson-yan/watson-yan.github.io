@@ -5,9 +5,6 @@
 <title>Pull to Refresh</title>
 <meta name="viewport" content="width=device-width,height=device-height,inital-scale=1.0,maximum-scale=1.0,user-scalable=no;" />
 <style>
-    * {
-        -webkit-overflow-scrolling : touch;  
-    }
     html, body {
         height: 100%;
         width: 100%;
@@ -73,27 +70,42 @@
    var msg = document.querySelector('.refresh-msg')
    var touchStart = 0
    var touchDis = 0
-   var flag = false
+   var flag = 0
    var temp = 0
    var beZero = 0 // 什么时候到达top: 0
    var scroll = document.querySelector('.scroll')
-   outerScroller.addEventListener('touchstart', function(event) { 
+   var refreshFlag = 0
+
+   outerScroller.addEventListener('touchstart', function(event) {
+       if (flag) {
+           event.preventDefault()
+           return
+       } 
         var touch = event.targetTouches[0]; 
         // 把元素放在手指所在的位置 
-        touchStart = touch.pageY; 
+        touchStart = touch.clientY; 
         console.log('touchStart:' + touchStart);
-        if (outerScroller.scrollTop === 0 && touchDis > 0) {
-            event.preventDefault()
-        }
+        // if (outerScroller.scrollTop === 0 && touchDis > 0) {
+        //     event.preventDefault()
+        // }
     });
    outerScroller.addEventListener('touchmove', function(event) { 
+        if (!touchStart) {
+            return
+        }
+        if (flag) {
+            event.preventDefault()
+            return
+        }
+
         var touch = event.targetTouches[0]; 
+
         var top = outerScroller.scrollTop
         if (top === 0) {
-            if (beZero === 0) {
-                beZero = touch.pageY - touchStart;
-            }
-            touchDis = touch.pageY - touchStart - beZero;
+            // if (beZero === 0) {
+            //     beZero = touch.pageY - touchStart;
+            // }
+            touchDis = touch.clientY - touchStart - beZero;
             console.warn(touchDis)
             if (touchDis > 0) {
                 event.preventDefault()
@@ -103,7 +115,7 @@
                     if (touchDis > 50) {
                         console.warn('释放刷新')
                         msg.innerHTML = '释放刷新'
-                        flag = true
+                        refreshFlag = true
                     } else {
                         msg.innerHTML = '下拉刷新'
                     }
@@ -111,20 +123,32 @@
             }
         }
     });
-   outerScroller.addEventListener('touchend', function(event) { 
-        if (flag) {
-            outerScroller.style.transform = 'translate3D(0px, 50px, 0px)'
+   outerScroller.addEventListener('touchend', function(event) {
+       if (touchDis === 0) {
+            return
+       }
+       if (flag) {
+           event.preventDefault()
+           return
+       }
+
+       if (refreshFlag && touchDis > 0) {
+            outerScroller.style.webkitTransform = 'translate3D(0px, 50px, 0px)'
             msg.innerHTML = '正在加载'
-            flag = false
+            flag = 1
             setTimeout(() => {
                 refresh()
+                flag = 0
                 outerScroller.scrollTop = 0
                 outerScroller.style.overflow = 'auto'
-                outerScroller.style.transform = 'translate3D(0px, 0px, 0px)'
+                outerScroller.style.webkitTransform = 'translate3D(0px, 0px, 0px)'
             }, 600);
             return
         }
+
         beZero = 0
+        flag = 0
+        refreshFlag = 0
         outerScroller.style.overflow = 'auto'
         outerScroller.style.transform = 'translate3D(0px, 0px, 0px)'
     }, false);
