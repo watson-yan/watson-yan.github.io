@@ -6,6 +6,20 @@ button, input, select, textarea {
     font-size: 100%;
     vertical-align: middle;
 }
+textarea {
+  padding: 0.5rem;
+  &:hover {
+    border-color: #787878;
+  }
+  &:focus {
+    outline: none;
+    border-color: #1ba1e2;
+  }
+  &:disabled {
+    background-color: #EBEBE4;
+    cursor: not-allowed;
+  }
+}
 label {
   cursor: pointer;
 }
@@ -15,11 +29,10 @@ label {
   min-height: 2.125rem;
   height: 2.125rem;
   position: relative;
-  vertical-align: middle;
+  // vertical-align: middle;
   margin: .325rem 0;
   line-height: 1;
   input {
-    // -webkit-appearance: none;
     appearance: none;
     padding: .3125rem;
     position: relative;
@@ -298,7 +311,7 @@ label {
 
 
 .form-group {
-  margin: .4rem;
+  margin: .4rem 0;
   .label {
     margin-top: 12px;
     padding: 0px 15px;
