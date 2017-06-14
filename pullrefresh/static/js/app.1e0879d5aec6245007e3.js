@@ -62,7 +62,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
           const temp = {};
           while (appendList.length < 3) {
             const index = Math.floor(Math.random() * 10);
-            if (!temp[index]) {
+            if (!temp[`attr${index}`]) {
+              temp[`attr${index}`] = this.backup[index];
               appendList.push(this.backup[index]);
             }
           }
@@ -339,4 +340,4 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
 
 /***/ })
 ],[5]);
-//# sourceMappingURL=app.7883c09ee0889e4e3a11.js.map
+//# sourceMappingURL=app.1e0879d5aec6245007e3.js.map
