@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    <title>神秘的属性描述符 | watson yan</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="双向绑定,属性访问器">
+    <meta name="description" content="前面的话对于操作系统中的文件，我们可以驾轻就熟将其设置为只读、隐藏、系统文件或普通文件。于对象来说，属性描述符提供类似的功能，用来描述对象的值、是否可配置、是否可修改以及是否可枚举。本文就来介绍对象中神秘的属性描述符 描述符类型　　对象属性描述符的类型分为两种：数据属性和访问器属性 数据属性数据属性(data property)包含一个数据值的位置，在这个位置可以读取和写入值。数据属性有4个特性">
+<meta name="keywords" content="双向绑定,属性访问器">
+<meta property="og:type" content="article">
+<meta property="og:title" content="神秘的属性描述符">
+<meta property="og:url" content="http://huayan.site/2017/06/16/神秘的属性描述符/index.html">
+<meta property="og:site_name" content="watson yan">
+<meta property="og:description" content="前面的话对于操作系统中的文件，我们可以驾轻就熟将其设置为只读、隐藏、系统文件或普通文件。于对象来说，属性描述符提供类似的功能，用来描述对象的值、是否可配置、是否可修改以及是否可枚举。本文就来介绍对象中神秘的属性描述符 描述符类型　　对象属性描述符的类型分为两种：数据属性和访问器属性 数据属性数据属性(data property)包含一个数据值的位置，在这个位置可以读取和写入值。数据属性有4个特性">
+<meta property="og:updated_time" content="2017-06-16T02:38:45.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="神秘的属性描述符">
+<meta name="twitter:description" content="前面的话对于操作系统中的文件，我们可以驾轻就熟将其设置为只读、隐藏、系统文件或普通文件。于对象来说，属性描述符提供类似的功能，用来描述对象的值、是否可配置、是否可修改以及是否可枚举。本文就来介绍对象中神秘的属性描述符 描述符类型　　对象属性描述符的类型分为两种：数据属性和访问器属性 数据属性数据属性(data property)包含一个数据值的位置，在这个位置可以读取和写入值。数据属性有4个特性">
+    
+        <link rel="alternate" type="application/atom+xml" title="watson yan" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/img/favicon.ico">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/avatar.jpeg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">watson yan</h5>
+          <a href="mailto:watson-yan@outlook.com" title="watson-yan@outlook.com" class="mail">watson-yan@outlook.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                文章
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/watson-yan" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/ViUI"  >
+                <i class="icon icon-lg icon-link"></i>
+                ViUI
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">神秘的属性描述符</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">神秘的属性描述符</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2017-06-16T01:59:52.000Z" itemprop="datePublished" class="page-time">
+  2017-06-16
+</time>
+
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#前面的话"><span class="post-toc-number">1.</span> <span class="post-toc-text">前面的话</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#描述符类型"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">描述符类型</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#数据属性"><span class="post-toc-number">1.1.1.</span> <span class="post-toc-text">数据属性</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#访问器属性"><span class="post-toc-number">1.1.2.</span> <span class="post-toc-text">访问器属性</span></a></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#描述符方法"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">描述符方法</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#描述符详述"><span class="post-toc-number">1.3.</span> <span class="post-toc-text">描述符详述</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#可写性-writable"><span class="post-toc-number">1.3.1.</span> <span class="post-toc-text">可写性(writable)</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#可配置性-Configurable"><span class="post-toc-number">1.3.2.</span> <span class="post-toc-text">可配置性(Configurable)</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#可枚举性-Enumerable"><span class="post-toc-number">1.3.3.</span> <span class="post-toc-text">可枚举性(Enumerable)</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#get和set"><span class="post-toc-number">1.3.4.</span> <span class="post-toc-text">get和set</span></a></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#对象状态"><span class="post-toc-number">1.4.</span> <span class="post-toc-text">对象状态</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#Object-preventExtensions-禁止扩展"><span class="post-toc-number">1.4.1.</span> <span class="post-toc-text">Object.preventExtensions()(禁止扩展)</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#Object-isExtensible-测试扩展"><span class="post-toc-number">1.4.2.</span> <span class="post-toc-text">Object.isExtensible()(测试扩展)</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#Object-seal-对象封印"><span class="post-toc-number">1.4.3.</span> <span class="post-toc-text">Object.seal()(对象封印)</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#Object-isSealed-测试封印"><span class="post-toc-number">1.4.4.</span> <span class="post-toc-text">Object.isSealed()(测试封印)</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#Object-freeze-对象冻结"><span class="post-toc-number">1.4.5.</span> <span class="post-toc-text">Object.freeze()(对象冻结)</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#Object-isFrozen-检测冻结"><span class="post-toc-number">1.4.6.</span> <span class="post-toc-text">Object.isFrozen()(检测冻结)</span></a></li></ol></li></ol></li></ol>
+        </nav>
+    </aside>
+    
+<article id="post-神秘的属性描述符"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">神秘的属性描述符</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2017-06-16 09:59:52" datetime="2017-06-16T01:59:52.000Z"  itemprop="datePublished">2017-06-16</time>
+
+            
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+            
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <h3 id="前面的话"><a href="#前面的话" class="headerlink" title="前面的话"></a>前面的话</h3><p>对于操作系统中的文件，我们可以驾轻就熟将其设置为只读、隐藏、系统文件或普通文件。于对象来说，属性描述符提供类似的功能，用来描述对象的值、是否可配置、是否可修改以及是否可枚举。本文就来介绍对象中神秘的属性描述符</p>
+<h4 id="描述符类型"><a href="#描述符类型" class="headerlink" title="描述符类型"></a>描述符类型</h4><p>　　对象属性描述符的类型分为两种：数据属性和访问器属性</p>
+<h5 id="数据属性"><a href="#数据属性" class="headerlink" title="数据属性"></a>数据属性</h5><p>数据属性(data property)包含一个数据值的位置，在这个位置可以读取和写入值。数据属性有4个特性</p>
+<ol>
+<li>Configurable(可配置性)</li>
+</ol>
+<p>　　可配置性决定是否可以使用delete删除属性，以及是否可以修改属性描述符的特性，默认值为true</p>
+<ol>
+<li>Enumerable(可枚举性)</li>
+</ol>
+<p>　　可枚举性决定属性是否出现在对象的属性枚举中，比如是否可以通过for-in循环返回该属性，默认值为true</p>
+<ol>
+<li>Writable(可写性)</li>
+</ol>
+<p>　　可写性决定是否可以修改属性的值，默认值为true</p>
+<ol>
+<li>Value(属性值)</li>
+</ol>
+<p>属性值包含这个属性的数据值，读取属性值的时候，从这个位置读；写入属性值的时候，把新值保存在这个位置。默认值为undefined</p>
+<h5 id="访问器属性"><a href="#访问器属性" class="headerlink" title="访问器属性"></a>访问器属性</h5><p>对象属性是名字、值和一组属性描述符构成的。而属性值可以用一个或两个方法替代，这两个方法就是getter和setter。而这种属性类型叫访问器属性(accessor property)</p>
+<ol>
+<li>Configurable(可配置性)</li>
+</ol>
+<p>　　可配置性决定是否可以使用delete删除属性，以及是否可以修改属性描述符的特性，默认值为true</p>
+<ol>
+<li>Enumerable(可枚举性)</li>
+</ol>
+<p>　　可枚举性决定属性是否出现在对象的属性枚举中，比如是否可以通过for-in循环返回该属性，默认值为true</p>
+<ol>
+<li>getter</li>
+</ol>
+<p>　　在读取属性时调用的函数。默认值为undefined</p>
+<ol>
+<li>setter</li>
+</ol>
+<p>　　在写入属性时调用的函数。默认值为undefined</p>
+<p>　　和数据属性不同，访问器属性不具有可写性(Writable)。如果属性同时具有getter和setter方法，那么它是一个读/写属性。如果它只有getter方法，那么它是一个只读属性。如果它只有setter方法，那么它是一个只写属性。读取只写属性总是返回undefined</p>
+<h4 id="描述符方法"><a href="#描述符方法" class="headerlink" title="描述符方法"></a>描述符方法</h4><p>　　前面介绍了属性描述符，要想设置它们，就需要用到描述符方法。描述符方法总共有以下4个：</p>
+<ol>
+<li>Object.getOwnPropertyDescriptor()</li>
+</ol>
+<p>　　Object.getOwnPropertyDescriptor(o,name)方法用于查询一个属性的描述符，并以对象的形式返回</p>
+<p>　　查询obj.a属性时，可配置性、可枚举性、可写性都是默认的true，而value是a的属性值1</p>
+<p>　　查询obj.b属性时，因为obj.b属性不存在，该方法返回undefined</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> obj = &#123;<span class="attr">a</span>:<span class="number">1</span>&#125;;</div><div class="line"><span class="comment">//Object &#123;value: 1, writable: true, enumerable: true, configurable: true&#125;</span></div><div class="line"><span class="built_in">console</span>.log(<span class="built_in">Object</span>.getOwnPropertyDescriptor(obj,<span class="string">'a'</span>));</div><div class="line"><span class="comment">//undefined</span></div><div class="line"><span class="built_in">console</span>.log(<span class="built_in">Object</span>.getOwnPropertyDescriptor(obj,<span class="string">'b'</span>));</div></pre></td></tr></table></figure>
+<ol>
+<li>Object.defineProperty()</li>
+</ol>
+<p>　　Object.defineProperty(o,name,desc)方法用于创建或配置对象的一个属性的描述符，返回配置后的对象</p>
+<p>　　使用该方法创建或配置对象属性的描述符时，如果不针对该属性进行描述符的配置，则该项描述符默认为false</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> obj = &#123;&#125;;</div><div class="line"><span class="comment">//&#123;a:1&#125;</span></div><div class="line"><span class="built_in">console</span>.log(<span class="built_in">Object</span>.defineProperty(obj,<span class="string">'a'</span>,&#123;</div><div class="line">        <span class="attr">value</span>:<span class="number">1</span>,</div><div class="line">        <span class="attr">writable</span>: <span class="literal">true</span></div><div class="line">    &#125;));</div><div class="line"></div><div class="line"><span class="comment">//由于没有配置enumerable和configurable，所以它们的值为false</span></div><div class="line"><span class="comment">//&#123;value: 1, writable: true, enumerable: false, configurable: false&#125;</span></div><div class="line"><span class="built_in">console</span>.log(<span class="built_in">Object</span>.getOwnPropertyDescriptor(obj,<span class="string">'a'</span>));</div></pre></td></tr></table></figure>
+<ol>
+<li>Object.defineProperties()</li>
+</ol>
+<p>　　Object.defineProperty(o,descriptors)方法用于创建或配置对象的多个属性的描述符，返回配置后的对象</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> obj = &#123;</div><div class="line">    <span class="attr">a</span>:<span class="number">1</span></div><div class="line">&#125;;</div><div class="line"><span class="comment">//&#123;a: 1, b: 2&#125;</span></div><div class="line"><span class="built_in">console</span>.log(<span class="built_in">Object</span>.defineProperties(obj,&#123;</div><div class="line">        <span class="attr">a</span>:&#123;<span class="attr">writable</span>:<span class="literal">false</span>&#125;,</div><div class="line">        <span class="attr">b</span>:&#123;<span class="attr">value</span>:<span class="number">2</span>&#125;</div><div class="line">    &#125;));</div><div class="line"></div><div class="line"><span class="comment">//&#123;value: 1, writable: false, enumerable: true, configurable: true&#125;</span></div><div class="line"><span class="built_in">console</span>.log(<span class="built_in">Object</span>.getOwnPropertyDescriptor(obj,<span class="string">'a'</span>));</div><div class="line"><span class="comment">//&#123;value: 2, writable: false, enumerable: false, configurable: false&#125;</span></div><div class="line"><span class="built_in">console</span>.log(<span class="built_in">Object</span>.getOwnPropertyDescriptor(obj,<span class="string">'b'</span>));</div></pre></td></tr></table></figure>
+<ol>
+<li>Object.create()</li>
+</ol>
+<p>　　Object.create(proto,descriptors)方法使用指定的原型和属性来创建一个对象</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> o = <span class="built_in">Object</span>.create(<span class="built_in">Object</span>.prototype,&#123;</div><div class="line">    <span class="attr">a</span>:&#123;<span class="attr">writable</span>: <span class="literal">false</span>,<span class="attr">value</span>:<span class="number">1</span>,<span class="attr">enumerable</span>:<span class="literal">true</span>&#125;</div><div class="line">&#125;);</div><div class="line"><span class="comment">//&#123;value: 1, writable: false, enumerable: true, configurable: true&#125;</span></div><div class="line"><span class="built_in">console</span>.log(<span class="built_in">Object</span>.getOwnPropertyDescriptor(obj,<span class="string">'a'</span>));</div></pre></td></tr></table></figure>
+<h4 id="描述符详述"><a href="#描述符详述" class="headerlink" title="描述符详述"></a>描述符详述</h4><p>　　前面分别介绍了数据属性和访问器属性的描述符，但没有详细说明其含义及使用，接下来逐一进行说明</p>
+<h5 id="可写性-writable"><a href="#可写性-writable" class="headerlink" title="可写性(writable)"></a>可写性(writable)</h5><p>可写性决定是否可以修改属性的值，默认值为true<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> o = &#123;<span class="attr">a</span>:<span class="number">1</span>&#125;;</div><div class="line">o.a = <span class="number">2</span>;</div><div class="line"><span class="built_in">console</span>.log(o.a);<span class="comment">//2</span></div><div class="line">　　设置writable:<span class="literal">false</span>后，赋值语句会静默失效</div></pre></td></tr></table></figure></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> o = &#123;<span class="attr">a</span>:<span class="number">1</span>&#125;;</div><div class="line"><span class="built_in">Object</span>.defineProperty(o,<span class="string">'a'</span>,&#123;</div><div class="line">    <span class="attr">writable</span>:<span class="literal">false</span></div><div class="line">&#125;);</div><div class="line"><span class="built_in">console</span>.log(o.a);<span class="comment">//1</span></div><div class="line"><span class="comment">//由于设置了writable为false，所以o.a=2这个语句会静默失效</span></div><div class="line">o.a = <span class="number">2</span>;</div><div class="line"><span class="built_in">console</span>.log(o.a);<span class="comment">//1</span></div><div class="line"><span class="built_in">Object</span>.defineProperty(o,<span class="string">'a'</span>,&#123;</div><div class="line">    <span class="attr">writable</span>:<span class="literal">true</span></div><div class="line">&#125;);</div><div class="line"><span class="comment">//由于writable设置为true，所以o.a可以被修改为2</span></div><div class="line">o.a = <span class="number">2</span>;</div><div class="line"><span class="built_in">console</span>.log(o.a);<span class="comment">//2</span></div></pre></td></tr></table></figure>
+<p>在严格模式下通过赋值语句为writable为false的属性赋值，会提示类型错误TypeError</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="meta">'use strict'</span>;</div><div class="line"><span class="keyword">var</span> o = &#123;<span class="attr">a</span>:<span class="number">1</span>&#125;;</div><div class="line"><span class="built_in">Object</span>.defineProperty(o,<span class="string">'a'</span>,&#123;</div><div class="line">    <span class="attr">writable</span>:<span class="literal">false</span></div><div class="line">&#125;);</div><div class="line"><span class="comment">//Uncaught TypeError: Cannot assign to read only property 'a' of object '#&lt;Object&gt;'</span></div><div class="line">o.a = <span class="number">2</span>;</div></pre></td></tr></table></figure>
+<p>　　[注意]设置writable:false后，通过Object.defineProperty()方法改变属性value的值不会受影响，因为这也意味着在重置writable的属性值为false</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> o = &#123;<span class="attr">a</span>:<span class="number">1</span>&#125;;</div><div class="line"><span class="built_in">Object</span>.defineProperty(o,<span class="string">'a'</span>,&#123;</div><div class="line">    <span class="attr">writable</span>:<span class="literal">false</span></div><div class="line">&#125;);</div><div class="line"><span class="built_in">console</span>.log(o.a);<span class="comment">//1</span></div><div class="line"><span class="built_in">Object</span>.defineProperty(o,<span class="string">'a'</span>,&#123;</div><div class="line">    <span class="attr">value</span>:<span class="number">2</span></div><div class="line">&#125;);</div><div class="line"><span class="built_in">console</span>.log(o.a);<span class="comment">//2</span></div></pre></td></tr></table></figure>
+<h5 id="可配置性-Configurable"><a href="#可配置性-Configurable" class="headerlink" title="可配置性(Configurable)"></a>可配置性(Configurable)</h5><p>　　可配置性决定是否可以使用delete删除属性，以及是否可以修改属性描述符的特性，默认值为true</p>
+<ol>
+<li>设置Configurable:false后，无法使用delete删除属性<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> o = &#123;<span class="attr">a</span>:<span class="number">1</span>&#125;;</div><div class="line"><span class="built_in">Object</span>.defineProperty(o,<span class="string">'a'</span>,&#123;</div><div class="line">    <span class="attr">configurable</span>:<span class="literal">false</span></div><div class="line">&#125;);</div><div class="line"><span class="keyword">delete</span> o.a;<span class="comment">//false</span></div><div class="line"><span class="built_in">console</span>.log(o.a);<span class="comment">//1</span></div></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>　　在严格模式下删除为configurable为false的属性，会提示类型错误TypeError</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="meta">'use strict'</span>;</div><div class="line"><span class="keyword">var</span> o = &#123;<span class="attr">a</span>:<span class="number">1</span>&#125;;</div><div class="line"><span class="built_in">Object</span>.defineProperty(o,<span class="string">'a'</span>,&#123;</div><div class="line">    <span class="attr">configurable</span>:<span class="literal">false</span></div><div class="line">&#125;);</div><div class="line"><span class="comment">//Uncaught TypeError: Cannot delete property 'a' of #&lt;Object&gt;</span></div><div class="line"><span class="keyword">delete</span> o.a;</div></pre></td></tr></table></figure>
+<p>　　[注意]使用var命令声明变量时，变量的configurable为false</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> a = <span class="number">1</span>;</div><div class="line"><span class="comment">//&#123;value: 1, writable: true, enumerable: true, configurable: false&#125;</span></div><div class="line"><span class="built_in">Object</span>.getOwnPropertyDescriptor(<span class="keyword">this</span>,<span class="string">'a'</span>);</div></pre></td></tr></table></figure>
+<ol>
+<li>一般地，设置Configurable:false后，将无法再使用defineProperty()方法来修改属性描述符</li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> o = &#123;<span class="attr">a</span>:<span class="number">1</span>&#125;;</div><div class="line"><span class="built_in">Object</span>.defineProperty(o,<span class="string">'a'</span>,&#123;</div><div class="line">    <span class="attr">configurable</span>:<span class="literal">false</span></div><div class="line">&#125;);</div><div class="line"><span class="comment">//Uncaught TypeError: Cannot redefine property: a</span></div><div class="line"><span class="built_in">Object</span>.defineProperty(o,<span class="string">'a'</span>,&#123;</div><div class="line">    <span class="attr">configurable</span>:<span class="literal">true</span></div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>　　有一个例外，设置Configurable:false后，只允许writable的状态从true变为false</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> o = &#123;<span class="attr">a</span>:<span class="number">1</span>&#125;;</div><div class="line"><span class="built_in">Object</span>.defineProperty(o,<span class="string">'a'</span>,&#123;</div><div class="line">    <span class="attr">configurable</span>:<span class="literal">false</span>,</div><div class="line">    <span class="attr">writable</span>:<span class="literal">true</span></div><div class="line">&#125;);</div><div class="line">o.a = <span class="number">2</span>;</div><div class="line"><span class="built_in">console</span>.log(o.a);<span class="comment">//2</span></div><div class="line"><span class="built_in">Object</span>.defineProperty(o,<span class="string">'a'</span>,&#123;</div><div class="line">    <span class="attr">writable</span>:<span class="literal">false</span></div><div class="line">&#125;);</div><div class="line"><span class="comment">//由于writable:false生效，对象a的o属性无法修改值，所以o.a=3的赋值语句静默失败</span></div><div class="line">o.a = <span class="number">3</span>;</div><div class="line"><span class="built_in">console</span>.log(o.a);<span class="comment">//2</span></div></pre></td></tr></table></figure>
+<h5 id="可枚举性-Enumerable"><a href="#可枚举性-Enumerable" class="headerlink" title="可枚举性(Enumerable)"></a>可枚举性(Enumerable)</h5><p>　　可枚举性决定属性是否出现在对象的属性枚举中，具体来说，for-in循环、Object.keys方法、JSON.stringify方法是否会取到该属性</p>
+<p>　　用户定义的普通属性默认是可枚举的，而原生继承的属性默认是不可枚举的<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//由于原生继承的属性默认不可枚举，所以只取得自定义的属性a:1</span></div><div class="line"><span class="keyword">var</span> o = &#123;<span class="attr">a</span>:<span class="number">1</span>&#125;;</div><div class="line"><span class="keyword">for</span>(<span class="keyword">var</span> i <span class="keyword">in</span> o)&#123;</div><div class="line">    <span class="built_in">console</span>.log(o[i]);<span class="comment">//1</span></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//由于enumerable被设置为false，在for-in循环中a属性无法被枚举出来</span></div><div class="line"><span class="keyword">var</span> o = &#123;<span class="attr">a</span>:<span class="number">1</span>&#125;;</div><div class="line"><span class="built_in">Object</span>.defineProperty(o,<span class="string">'a'</span>,&#123;<span class="attr">enumerable</span>:<span class="literal">false</span>&#125;);</div><div class="line"><span class="keyword">for</span>(<span class="keyword">var</span> i <span class="keyword">in</span> o)&#123;</div><div class="line">    <span class="built_in">console</span>.log(o[i]);<span class="comment">//undefined</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>propertyIsEnumerable()</p>
+<p>　　propertyIsEnumerable()方法用于判断对象的属性是否可枚举<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> o = &#123;<span class="attr">a</span>:<span class="number">1</span>&#125;;</div><div class="line"><span class="built_in">console</span>.log(o.propertyIsEnumerable(<span class="string">'a'</span>));<span class="comment">//true</span></div><div class="line"><span class="built_in">Object</span>.defineProperty(o,<span class="string">'a'</span>,&#123;<span class="attr">enumerable</span>:<span class="literal">false</span>&#125;);</div><div class="line"><span class="built_in">console</span>.log(o.propertyIsEnumerable(<span class="string">'a'</span>));<span class="comment">//false</span></div></pre></td></tr></table></figure></p>
+<h5 id="get和set"><a href="#get和set" class="headerlink" title="get和set"></a>get和set</h5><p>　　get是一个隐藏函数，在获取属性值时调用。set也是一个隐藏函数，在设置属性值时调用，它们的默认值都是undefined。Object.definedProperty()中的get和set对应于对象字面量中get和set方法</p>
+<p>　　[注意]getter和setter取代了数据属性中的value和writable属性</p>
+<ol>
+<li>给只设置get方法，没有设置set方法的对象赋值会静默失败，在严格模式下会报错</li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> o = &#123;</div><div class="line">    get a()&#123;</div><div class="line">        <span class="keyword">return</span> <span class="number">2</span>;</div><div class="line">    &#125;</div><div class="line">&#125;    </div><div class="line"><span class="built_in">console</span>.log(o.a);<span class="comment">//2</span></div><div class="line"><span class="comment">//由于没有设置set方法，所以o.a=3的赋值语句会静默失败</span></div><div class="line">o.a = <span class="number">3</span>;</div><div class="line"><span class="built_in">console</span>.log(o.a);<span class="comment">//2</span></div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">Object</span>.defineProperty(o,<span class="string">'a'</span>,&#123;</div><div class="line">    <span class="attr">get</span>: <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="number">2</span>;</div><div class="line">    &#125;</div><div class="line">&#125;)</div><div class="line"><span class="built_in">console</span>.log(o.a);<span class="comment">//2</span></div><div class="line"><span class="comment">//由于没有设置set方法，所以o.a=3的赋值语句会静默失败</span></div><div class="line">o.a = <span class="number">3</span>;</div><div class="line"><span class="built_in">console</span>.log(o.a);<span class="comment">//2</span></div></pre></td></tr></table></figure>
+<p>　　在严格模式下，给没有设置set方法的访问器属性赋值会报错</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="meta">'use strict'</span>;</div><div class="line"><span class="keyword">var</span> o = &#123;</div><div class="line">    get a()&#123;</div><div class="line">        <span class="keyword">return</span> <span class="number">2</span>;</div><div class="line">    &#125;</div><div class="line">&#125;    </div><div class="line"><span class="built_in">console</span>.log(o.a);<span class="comment">//2</span></div><div class="line"><span class="comment">//由于没有设置set方法，所以o.a=3的赋值语句会报错</span></div><div class="line"><span class="comment">//Uncaught TypeError: Cannot set property a of #&lt;Object&gt; which has only a getter</span></div><div class="line">o.a = <span class="number">3</span>;</div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="meta">'use strict'</span>;</div><div class="line"><span class="built_in">Object</span>.defineProperty(o,<span class="string">'a'</span>,&#123;</div><div class="line">    <span class="attr">get</span>: <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="number">2</span>;</div><div class="line">    &#125;</div><div class="line">&#125;)</div><div class="line"><span class="built_in">console</span>.log(o.a);<span class="comment">//2</span></div><div class="line"><span class="comment">//由于没有设置set方法，所以o.a=3的赋值语句会报错</span></div><div class="line"><span class="comment">//Uncaught TypeError: Cannot set property a of #&lt;Object&gt; which has only a getter</span></div><div class="line">o.a = <span class="number">3</span>;</div></pre></td></tr></table></figure>
+<ol>
+<li>只设置set方法，而不设置get方法，则对象属性值为undefined</li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> o = &#123;</div><div class="line">    set a(val)&#123;</div><div class="line">        <span class="keyword">return</span> <span class="number">2</span>;</div><div class="line">    &#125;</div><div class="line">&#125;    </div><div class="line">o.a = <span class="number">1</span>;</div><div class="line"><span class="built_in">console</span>.log(o.a);<span class="comment">//undefined</span></div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">Object</span>.defineProperty(o,<span class="string">'a'</span>,&#123;</div><div class="line">    <span class="attr">set</span>: <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="number">2</span>;</div><div class="line">    &#125;</div><div class="line">&#125;)</div><div class="line">o.a = <span class="number">1</span>;</div><div class="line"><span class="built_in">console</span>.log(o.a);<span class="comment">//undefined</span></div></pre></td></tr></table></figure>
+<ol>
+<li>一般地，set和get方法是成对出现的</li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> o =&#123;</div><div class="line">    get a()&#123;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">this</span>._a;</div><div class="line">    &#125;,</div><div class="line">    set a(val)&#123;</div><div class="line">        <span class="keyword">this</span>._a = val*<span class="number">2</span>;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line">o.a = <span class="number">1</span>;</div><div class="line"><span class="built_in">console</span>.log(o.a);<span class="comment">//2</span></div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">Object</span>.defineProperty(o,<span class="string">'a'</span>,&#123;</div><div class="line">    <span class="attr">get</span>: <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">this</span>._a;</div><div class="line">    &#125;,</div><div class="line">    <span class="attr">set</span> :<span class="function"><span class="keyword">function</span>(<span class="params">val</span>)</span>&#123;</div><div class="line">        <span class="keyword">this</span>._a = val*<span class="number">2</span>;</div><div class="line">    &#125;</div><div class="line">&#125;)</div><div class="line">o.a = <span class="number">1</span>;</div><div class="line"><span class="built_in">console</span>.log(o.a);<span class="comment">//2</span></div></pre></td></tr></table></figure>
+<h4 id="对象状态"><a href="#对象状态" class="headerlink" title="对象状态"></a>对象状态</h4><p>属性描述符只能用来控制对象中一个属性的状态。而如果要控制对象的状态，就要用到下面的6种方法 </p>
+<h5 id="Object-preventExtensions-禁止扩展"><a href="#Object-preventExtensions-禁止扩展" class="headerlink" title="Object.preventExtensions()(禁止扩展)"></a>Object.preventExtensions()(禁止扩展)</h5><p>　　Object.preventExtensions()方法使一个对象无法再添加新的属性，并返回当前对象</p>
+<h5 id="Object-isExtensible-测试扩展"><a href="#Object-isExtensible-测试扩展" class="headerlink" title="Object.isExtensible()(测试扩展)"></a>Object.isExtensible()(测试扩展)</h5><p>　　Object.isExtensible()方法用来检测该对象是否可以扩展</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> o = &#123;<span class="attr">a</span>:<span class="number">1</span>&#125;;</div><div class="line"><span class="built_in">console</span>.log(<span class="built_in">Object</span>.isExtensible(o));<span class="comment">//true</span></div><div class="line">o.b = <span class="number">2</span>;</div><div class="line"><span class="built_in">console</span>.log(o);<span class="comment">//&#123;a: 1, b: 2&#125;</span></div><div class="line"><span class="built_in">console</span>.log(<span class="built_in">Object</span>.preventExtensions(o));<span class="comment">//&#123;a: 1, b: 2&#125;</span></div><div class="line"><span class="comment">//由于对象o禁止扩展，所以该赋值语句静默失败</span></div><div class="line">o.c = <span class="number">3</span>;</div><div class="line"><span class="built_in">console</span>.log(<span class="built_in">Object</span>.isExtensible(o));<span class="comment">//false</span></div><div class="line"><span class="built_in">console</span>.log(o);<span class="comment">//&#123;a: 1, b: 2&#125;</span></div></pre></td></tr></table></figure>
+<p>　　在严格模式下，给禁止扩展的对象添加属性会报TypeError错误</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="meta">'use strict'</span>;</div><div class="line"><span class="keyword">var</span> o = &#123;<span class="attr">a</span>:<span class="number">1</span>&#125;;</div><div class="line"><span class="built_in">console</span>.log(<span class="built_in">Object</span>.preventExtensions(o));<span class="comment">//&#123;a:1&#125;</span></div><div class="line"><span class="comment">//Uncaught TypeError: Can't add property c, object is not extensible</span></div><div class="line">o.c = <span class="number">3</span>;</div></pre></td></tr></table></figure>
+<p>　　Object.preventExtensions()方法并不改变对象中属性的描述符状态</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> o = &#123;<span class="attr">a</span>:<span class="number">1</span>&#125;;</div><div class="line"><span class="comment">//&#123;value: 1, writable: true, enumerable: true, configurable: true&#125;</span></div><div class="line"><span class="built_in">console</span>.log(<span class="built_in">Object</span>.getOwnPropertyDescriptor(o,<span class="string">'a'</span>));</div><div class="line"><span class="built_in">Object</span>.preventExtensions(o);</div><div class="line"><span class="comment">//&#123;value: 1, writable: true, enumerable: true, configurable: true&#125;</span></div><div class="line"><span class="built_in">console</span>.log(<span class="built_in">Object</span>.getOwnPropertyDescriptor(o,<span class="string">'a'</span>));</div></pre></td></tr></table></figure>
+<h5 id="Object-seal-对象封印"><a href="#Object-seal-对象封印" class="headerlink" title="Object.seal()(对象封印)"></a>Object.seal()(对象封印)</h5><p>　　对象封印又叫对象密封，使一个对象不可扩展并且所有属性不可配置，并返回当前对象</p>
+<h5 id="Object-isSealed-测试封印"><a href="#Object-isSealed-测试封印" class="headerlink" title="Object.isSealed()(测试封印)"></a>Object.isSealed()(测试封印)</h5><p>　　Object.isSealed()方法用来检测该方法是否被封印</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> o = &#123;<span class="attr">a</span>:<span class="number">1</span>,<span class="attr">b</span>:<span class="number">2</span>&#125;;</div><div class="line"><span class="built_in">console</span>.log(<span class="built_in">Object</span>.isSealed(o));<span class="comment">//false</span></div><div class="line"><span class="built_in">console</span>.log(<span class="built_in">Object</span>.seal(o));<span class="comment">//&#123;a:1,b:2&#125;</span></div><div class="line"><span class="built_in">console</span>.log(<span class="built_in">Object</span>.isSealed(o));<span class="comment">//true</span></div><div class="line"><span class="built_in">console</span>.log(<span class="keyword">delete</span> o.b);<span class="comment">//false</span></div><div class="line">o.c = <span class="number">3</span>;</div><div class="line"><span class="built_in">console</span>.log(o);<span class="comment">//&#123;a:1,b:2&#125;</span></div></pre></td></tr></table></figure>
+<p>　　在严格模式下，删除旧属性或添加新属性都会报错</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="meta">'use strict'</span>;</div><div class="line"><span class="keyword">var</span> o = &#123;<span class="attr">a</span>:<span class="number">1</span>,<span class="attr">b</span>:<span class="number">2</span>&#125;;</div><div class="line"><span class="built_in">console</span>.log(<span class="built_in">Object</span>.seal(o));<span class="comment">//&#123;a:1,b:2&#125;</span></div><div class="line"><span class="comment">//Uncaught TypeError: Cannot delete property 'b' of #&lt;Object&gt;</span></div><div class="line"><span class="keyword">delete</span> o.b;</div></pre></td></tr></table></figure>
+<p>　　这个方法实际上会在现有对象上调用Object.preventExtensions()方法，并把所有现有属性的configurable描述符置为false</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> o = &#123;<span class="attr">a</span>:<span class="number">1</span>,<span class="attr">b</span>:<span class="number">2</span>&#125;;</div><div class="line"><span class="comment">//&#123;value: 1, writable: true, enumerable: true, configurable: true&#125;</span></div><div class="line"><span class="built_in">console</span>.log(<span class="built_in">Object</span>.getOwnPropertyDescriptor(o,<span class="string">'a'</span>));</div><div class="line"><span class="built_in">console</span>.log(<span class="built_in">Object</span>.seal(o));<span class="comment">//&#123;a:1,b:2&#125;</span></div><div class="line"><span class="comment">//&#123;value: 1, writable: true, enumerable: true, configurable: false&#125;</span></div><div class="line"><span class="built_in">console</span>.log(<span class="built_in">Object</span>.getOwnPropertyDescriptor(o,<span class="string">'a'</span>));</div></pre></td></tr></table></figure>
+<h5 id="Object-freeze-对象冻结"><a href="#Object-freeze-对象冻结" class="headerlink" title="Object.freeze()(对象冻结)"></a>Object.freeze()(对象冻结)</h5><p>　　Object.freeze()方法使一个对象不可扩展，不可配置，也不可改写，变成一个仅可以枚举的只读常量，并返回当前对象</p>
+<h5 id="Object-isFrozen-检测冻结"><a href="#Object-isFrozen-检测冻结" class="headerlink" title="Object.isFrozen()(检测冻结)"></a>Object.isFrozen()(检测冻结)</h5><p>　　Object.isFrozen()方法用来检测一个对象是否被冻结</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> o = &#123;<span class="attr">a</span>:<span class="number">1</span>,<span class="attr">b</span>:<span class="number">2</span>&#125;;</div><div class="line"><span class="built_in">console</span>.log(<span class="built_in">Object</span>.isFrozen(o));<span class="comment">//false</span></div><div class="line"><span class="built_in">console</span>.log(<span class="built_in">Object</span>.freeze(o));<span class="comment">//&#123;a:1,b:2&#125;</span></div><div class="line"><span class="built_in">console</span>.log(<span class="built_in">Object</span>.isFrozen(o));<span class="comment">//true</span></div><div class="line">o.a = <span class="number">3</span>;</div><div class="line"><span class="built_in">console</span>.log(o);<span class="comment">//&#123;a:1,b:2&#125;</span></div></pre></td></tr></table></figure>
+<p>　　在严格模式下，删除旧属性、添加新属性、更改现有属性都会报错</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="meta">'use strict'</span>;</div><div class="line"><span class="keyword">var</span> o = &#123;<span class="attr">a</span>:<span class="number">1</span>,<span class="attr">b</span>:<span class="number">2</span>&#125;;</div><div class="line"><span class="built_in">console</span>.log(<span class="built_in">Object</span>.freeze(o));<span class="comment">//&#123;a:1,b:2&#125;</span></div><div class="line"><span class="comment">//Uncaught TypeError: Cannot assign to read only property 'a' of object '#&lt;Object&gt;'</span></div><div class="line">o.a = <span class="number">3</span>;</div></pre></td></tr></table></figure>
+<p>　　这个方法实际上会在现有对象上调用Object.seal()方法，并把所有现有属性的writable描述符置为false</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> o = &#123;<span class="attr">a</span>:<span class="number">1</span>&#125;;</div><div class="line"><span class="comment">//&#123;value: 1, writable: true, enumerable: true, configurable: true&#125;</span></div><div class="line"><span class="built_in">console</span>.log(<span class="built_in">Object</span>.getOwnPropertyDescriptor(o,<span class="string">'a'</span>));</div><div class="line"><span class="built_in">console</span>.log(<span class="built_in">Object</span>.freeze(o));<span class="comment">//&#123;a:1&#125;</span></div><div class="line"><span class="comment">//&#123;value: 1, writable: false, enumerable: true, configurable: false&#125;</span></div><div class="line"><span class="built_in">console</span>.log(<span class="built_in">Object</span>.getOwnPropertyDescriptor(o,<span class="string">'a'</span>));</div></pre></td></tr></table></figure>
+        </div>
+
+        <blockquote class="post-copyright">
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2017-06-16T02:38:45.000Z" itemprop="dateUpdated">2017-06-16 10:38:45</time>
+</span><br>
+
+
+        
+        Don't be the same. Be better
+        
+    </div>
+    <footer>
+        <a href="http://huayan.site">
+            <img src="/img/avatar.jpeg" alt="watson yan">
+            watson yan
+        </a>
+    </footer>
+</blockquote>
+
+        
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/双向绑定/">双向绑定</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/属性访问器/">属性访问器</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://huayan.site/2017/06/16/神秘的属性描述符/&title=《神秘的属性描述符》 — watson yan&pic=http://huayan.site/img/avatar.jpeg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://huayan.site/2017/06/16/神秘的属性描述符/&title=《神秘的属性描述符》 — watson yan&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://huayan.site/2017/06/16/神秘的属性描述符/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《神秘的属性描述符》 — watson yan&url=http://huayan.site/2017/06/16/神秘的属性描述符/&via=http://huayan.site" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://huayan.site/2017/06/16/神秘的属性描述符/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between flex-row-reverse">
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2017/06/14/Javascript角度理解发布订阅者模式/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">Javascript角度理解发布订阅者模式</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>博客内容遵循<a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p>
+            <span>Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a></span>
+            <span>watson yan &copy; 2015 - 2017</span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://huayan.site/2017/06/16/神秘的属性描述符/&title=《神秘的属性描述符》 — watson yan&pic=http://huayan.site/img/avatar.jpeg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://huayan.site/2017/06/16/神秘的属性描述符/&title=《神秘的属性描述符》 — watson yan&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://huayan.site/2017/06/16/神秘的属性描述符/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《神秘的属性描述符》 — watson yan&url=http://huayan.site/2017/06/16/神秘的属性描述符/&via=http://huayan.site" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://huayan.site/2017/06/16/神秘的属性描述符/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://huayan.site/2017/06/16/神秘的属性描述符/" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: false };
+
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = 'watson';
+            clearTimeout(titleTime);
+        } else {
+            document.title = 'watson';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>
