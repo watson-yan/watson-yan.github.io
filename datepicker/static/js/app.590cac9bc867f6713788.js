@@ -97,6 +97,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       dList: this.getArray(1, 30),
       start: 0,
       end: 0,
+      startTime: 0,
+      endTime: 0,
       yTransform: 0,
       mTransform: 0,
       dTransform: 0,
@@ -137,6 +139,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       };ele.addEventListener('touchstart', e => {
         e.preventDefault();
         this.start = e.touches[0].pageY;
+        this.startTime = parseInt(new Date().getTime());
       });
       ele.addEventListener('touchmove', e => {
         e.preventDefault();
@@ -149,17 +152,31 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
           if (offset + 150 > reactive[`${type}`].max || offset < -100) {
             return;
           }
-          this.$refs[`${type}`].style.transform = `translateY(${-offset}px)`;
-          this.end = e.touches[0].pageY;
+          this.$refs[`${type}`].style.transform = `translateY(-${offset}px)`;
         }
       });
       ele.addEventListener('touchend', e => {
-        const distance = this.start - this.end;
+        const touch = e.changedTouches ? e.changedTouches[0] : e;
+        let distance = this.start - touch.pageY;
+        this.endTime = parseInt(new Date().getTime());
         if (e.target.nodeName === 'LI') {
           const parent = e.target.parentNode;
           const type = parent.dataset.type;
-          // 修正偏移量
+          // 滚动动画
+          const duration = this.endTime - this.startTime;
+          if (duration < 300) {
+            const speed = Math.abs(distance) / duration;
+            let moveTime = duration * speed * 20; // 惯性滚动时间(动画)
+            moveTime = moveTime > 2000 ? 2000 : moveTime;
+            distance = distance * speed * 10; // 惯性移动距离
+            this.$refs[`${type}`].style.transitionDuration = `${moveTime}ms`;
+          } else {
+            this.$refs[`${type}`].style.transitionDuration = '500ms';
+          }
+
+          // 偏移量
           let offset = reactive[`${type}`].transform + distance;
+          // 修正偏移量
           if (offset + 150 > reactive[`${type}`].max) {
             offset = reactive[`${type}`].max - 150;
           }
@@ -167,8 +184,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             const diff = offset % 50;
             offset = diff > 25 ? offset + (50 - diff) : offset - diff;
           }
+          console.warn(`offset${offset}`);
           reactive[`${type}`].transform = offset;
-          this.$refs[`${type}`].style.transform = `translateY(-${reactive[`${type}`].transform}px)`;
+          this.$refs[`${type}`].style.transitionProperty = 'all';
+          this.$refs[`${type}`].style.transitionTimingFunction = 'cubic-bezier(0.1, 0.57, 0.1, 1)';
+          this.$refs[`${type}`].style.transform = `translate(0, -${reactive[`${type}`].transform}px, 0)`;
         }
       });
     },
@@ -325,4 +345,4 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
 
 /***/ })
 ],[5]);
-//# sourceMappingURL=app.b6e82390c68a11622d6b.js.map
+//# sourceMappingURL=app.590cac9bc867f6713788.js.map
