@@ -51,9 +51,9 @@
     </summary>
     
     
-      <category term="闭包" scheme="http://huayan.site/tags/%E9%97%AD%E5%8C%85/"/>
-    
       <category term="Javascript" scheme="http://huayan.site/tags/Javascript/"/>
+    
+      <category term="闭包" scheme="http://huayan.site/tags/%E9%97%AD%E5%8C%85/"/>
     
   </entry>
   
@@ -167,9 +167,9 @@
     
       <category term="javascript" scheme="http://huayan.site/tags/javascript/"/>
     
-      <category term="Vue" scheme="http://huayan.site/tags/Vue/"/>
-    
       <category term="双向绑定" scheme="http://huayan.site/tags/%E5%8F%8C%E5%90%91%E7%BB%91%E5%AE%9A/"/>
+    
+      <category term="Vue" scheme="http://huayan.site/tags/Vue/"/>
     
   </entry>
   
