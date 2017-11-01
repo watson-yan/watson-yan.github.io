@@ -256,9 +256,9 @@
     
       <category term="javascript" scheme="http://huayan.site/tags/javascript/"/>
     
-      <category term="Vue" scheme="http://huayan.site/tags/Vue/"/>
-    
       <category term="双向绑定" scheme="http://huayan.site/tags/%E5%8F%8C%E5%90%91%E7%BB%91%E5%AE%9A/"/>
+    
+      <category term="Vue" scheme="http://huayan.site/tags/Vue/"/>
     
   </entry>
   
