@@ -78,6 +78,54 @@
   .button:focus {
     outline: none; }
 
+.radiobox, .checkbox {
+  display: inline-block;
+  position: relative; }
+  .radiobox input, .checkbox input {
+    position: absolute;
+    opacity: 0; }
+    .radiobox input:checked + .check span, .checkbox input:checked + .check span {
+      border-color: #23ade5; }
+  .radiobox .check, .checkbox .check {
+    display: inline-block; }
+    .radiobox .check span, .checkbox .check span {
+      display: inline-block;
+      height: 1.5rem;
+      width: 1.5rem;
+      border: 1px solid #e0e4eb; }
+      .radiobox .check span:before, .checkbox .check span:before {
+        -webkit-transition: all .3s linear;
+        transition: all .3s linear; }
+  .radiobox span, .checkbox span {
+    vertical-align: middle; }
+
+.radiobox .check span {
+  border-radius: 100%; }
+  .radiobox .check span:before {
+    content: ' ';
+    display: block;
+    margin: .3rem auto;
+    width: .9rem;
+    height: 0.9rem;
+    border-radius: 100%; }
+
+.radiobox input:checked + .check span:before {
+  background: #23ade5; }
+
+.checkbox .check span:before {
+  content: ' ';
+  display: block;
+  margin: 2px auto;
+  width: .5rem;
+  height: 0.85rem;
+  border-right: 2px solid #fff;
+  border-bottom: 2px solid #fff;
+  -webkit-transform: rotate(45deg);
+          transform: rotate(45deg); }
+
+.checkbox input:checked + .check span {
+  background: #23ade5; }
+
 .caption-title {
   margin: 0;
   padding: .5rem;
@@ -153,6 +201,20 @@ ul {
     -ms-flex-item-align: center;
         align-self: center; }
 
+.list .list-header {
+  padding: 0 0 0 1rem;
+  font-weight: 500;
+  color: #1f1f21;
+  line-height: 1.78rem;
+  background-color: #eee; }
+
+.list .list-item {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  position: relative;
+  padding: 0 0 0 1rem; }
+
 .shadow {
   -webkit-box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.16), 0 2px 5px 0 rgba(0, 0, 0, 0.26);
           box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.16), 0 2px 5px 0 rgba(0, 0, 0, 0.26); }
@@ -168,3 +230,10 @@ ul {
 
 .center {
   text-align: center; }
+
+.border-bottom {
+  background-size: 100% 1px;
+  background-repeat: no-repeat;
+  background-position: bottom;
+  background-image: -webkit-gradient(linear, left bottom, left top, from(#ccc), to(#ccc));
+  background-image: linear-gradient(bottom, #ccc, #ccc 100%); }

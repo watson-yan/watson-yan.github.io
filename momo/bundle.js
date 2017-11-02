@@ -10377,7 +10377,7 @@ if (inBrowser$1 && window.Vue) {
 })();
 
 var Home = { render: function render() {
-    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { staticClass: "home" }, [_c('p', { staticClass: "caption-title" }, [_vm._v("Active Menu")]), _vm._v(" "), _c('router-link', { staticClass: "list-item", attrs: { "to": { path: '/button' }, "tag": "section" } }, [_vm._v("按钮")]), _vm._v(" "), _c('router-link', { staticClass: "list-item", attrs: { "to": { path: '/item' }, "tag": "section" } }, [_vm._v("列表")])], 1);
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { staticClass: "home" }, [_c('p', { staticClass: "caption-title" }, [_vm._v("样式列表")]), _vm._v(" "), _c('router-link', { staticClass: "list-item", attrs: { "to": { path: '/button' }, "tag": "section" } }, [_vm._v("按钮")]), _vm._v(" "), _c('router-link', { staticClass: "list-item", attrs: { "to": { path: '/item' }, "tag": "section" } }, [_vm._v("列表")]), _vm._v(" "), _c('router-link', { staticClass: "list-item", attrs: { "to": { path: '/input' }, "tag": "section" } }, [_vm._v("表单")]), _vm._v(" "), _c('router-link', { staticClass: "list-item", attrs: { "to": { path: '/list' }, "tag": "section" } }, [_vm._v("列表")])], 1);
   }, staticRenderFns: [], _scopeId: 'data-v-5a90ec03',
   data: function data() {
     return {};
@@ -10430,7 +10430,51 @@ var Item = { render: function render() {
   }
 };
 
-var routes = [{ path: '/', component: Home }, { path: '/button', component: Button }, { path: '/item', component: Item }];
+(function () {
+  if (typeof document !== 'undefined') {
+    var head = document.head || document.getElementsByTagName('head')[0],
+        style = document.createElement('style'),
+        css = ".page-input[data-v-38f46518] { padding: 10px; } ";style.type = 'text/css';if (style.styleSheet) {
+      style.styleSheet.cssText = css;
+    } else {
+      style.appendChild(document.createTextNode(css));
+    }head.appendChild(style);
+  }
+})();
+
+var Input = { render: function render() {
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _vm._m(0);
+  }, staticRenderFns: [function () {
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { staticClass: "page-input" }, [_c('label', { staticClass: "radiobox" }, [_c('input', { attrs: { "name": "radio1", "type": "radio" } }), _vm._v(" "), _c('div', { staticClass: "check" }, [_c('span')]), _vm._v(" "), _c('span', { staticClass: "caption" }, [_vm._v("Apple")])]), _vm._v(" "), _c('label', { staticClass: "radiobox" }, [_c('input', { attrs: { "name": "radio1", "type": "radio" } }), _vm._v(" "), _c('div', { staticClass: "check" }, [_c('span')]), _vm._v(" "), _c('span', { staticClass: "caption" }, [_vm._v("Orange")])]), _vm._v(" "), _c('div', { staticStyle: { "padding": "10px 0" } }, [_c('label', { staticClass: "checkbox" }, [_c('input', { attrs: { "name": "checkbox1", "type": "checkbox" } }), _vm._v(" "), _c('div', { staticClass: "check" }, [_c('span')]), _vm._v(" "), _c('span', { staticClass: "caption" }, [_vm._v("Apple")])]), _vm._v(" "), _c('label', { staticClass: "checkbox" }, [_c('input', { attrs: { "name": "checkbox1", "type": "checkbox" } }), _vm._v(" "), _c('div', { staticClass: "check" }, [_c('span')]), _vm._v(" "), _c('span', { staticClass: "caption" }, [_vm._v("Orange")])])])]);
+  }], _scopeId: 'data-v-38f46518',
+  data: function data() {
+    return {};
+  }
+};
+
+(function () {
+  if (typeof document !== 'undefined') {
+    var head = document.head || document.getElementsByTagName('head')[0],
+        style = document.createElement('style'),
+        css = ".list-item .demo[data-v-6778c5c0] { padding: 1rem 0; -webkit-box-flex: 1; -ms-flex-positive: 1; flex-grow: 1; } ";style.type = 'text/css';if (style.styleSheet) {
+      style.styleSheet.cssText = css;
+    } else {
+      style.appendChild(document.createTextNode(css));
+    }head.appendChild(style);
+  }
+})();
+
+var List = { render: function render() {
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _vm._m(0);
+  }, staticRenderFns: [function () {
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { staticClass: "page-list" }, [_c('div', { staticClass: "list" }, [_c('div', { staticClass: "list-header" }, [_vm._v("DEFAULT")]), _vm._v(" "), _c('div', { staticClass: "list-item" }, [_c('div', { staticClass: "demo border-bottom" }, [_vm._v(" Item A ")])]), _vm._v(" "), _c('div', { staticClass: "list-item" }, [_c('div', { staticClass: "demo border-bottom" }, [_vm._v(" Item B ")])]), _vm._v(" "), _c('div', { staticClass: "list-item" }, [_c('div', { staticClass: "demo" }, [_vm._v(" Item C ")])]), _vm._v(" "), _c('div', { staticClass: "list-header" }, [_vm._v("SETTING")]), _vm._v(" "), _c('div', { staticClass: "list-item" }, [_c('div', { staticClass: "demo border-bottom" }, [_vm._v(" Item A ")])]), _vm._v(" "), _c('div', { staticClass: "list-item" }, [_c('div', { staticClass: "demo border-bottom" }, [_vm._v(" Item B ")])]), _vm._v(" "), _c('div', { staticClass: "list-item" }, [_c('div', { staticClass: "demo border-bottom" }, [_vm._v(" Item C ")])])])]);
+  }], _scopeId: 'data-v-6778c5c0',
+  data: function data() {
+    return {};
+  }
+};
+
+var routes = [{ path: '/', component: Home }, { path: '/button', component: Button }, { path: '/item', component: Item }, { path: '/input', component: Input }, { path: '/list', component: List }];
 
 var router = new VueRouter({
   mode: 'history',
